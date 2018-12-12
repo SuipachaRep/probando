@@ -1,0 +1,131 @@
+Git is designed to give each developer an entirely isolited environment
+with your own local history and branch structure:
+you need to manually PULL upstream commits into their LOCAL REPOSITORY.
+and manually PUSH their local commit back up to the CENTRAL REPOSITORY.
+
+The list of conections (remotes repositors and locals repositors) is stored in the file:
+.git/config
+
+You can modify this file just editing it or with the command "git remote",
+and the adventageous of modifying this file is that you can use git command PUSH and PULL with 
+the remote name instead of passing the URLs.
+
+
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "origin"]                   ------------> esta conexion se crea automaticamente cuando se hace 'git clone' y se le da nombre "origin"
+        url = https://github.com/SuipachaRep/instantaneous_interface.git ----> 'git remote -v' te da la URL de tal conexion 
+        fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]                   ------------> este es el repositorio local que obtengo al hacer 'git clone'
+        remote = origin
+        merge = refs/heads/master
+------------------------------------------
+
+
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = https://github.com/SuipachaRep/instantaneous_interface.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[remote "pepito"]       ------------------>   'git remote add pepito www.pepito.com', creas nueva conexion a repositorio remoto
+	url = www.pepito.com                   o a un coworker "pepito" y con 'git remote rm pepito' podes borrarla 
+	fetch = +refs/heads/*:refs/remotes/pepito/*
+
+----------------------------------------------------------
+
+
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]                               
+	url = https://github.com/SuipachaRep/instantaneous_interface.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[remote "jiji"]      ----------------------------------------> 'git remote rename pepito jiji', cambias el nombre de la conexion
+	url = www.pepito.com
+	fetch = +refs/heads/*:refs/remotes/jiji/*
+-----------------------------------------------------------------------
+
+
+
+git remote --> list all  "bookmark" name of remote repos.
+git remote -v --> print bookmarks names and URL of remote repos.
+git remote get-url jiji -->  gives "www.pepito.com"
+git remote show origin --> high-level information about the remote name "origin"
+
+
+when you clone a repository, it automatically creates a remote connection called "origin pointing"
+back to the cloned repository
+you clone a repository. Git gives a default name to it: origin (origin refers to a remote).
+Inside the repository origin, there are the different branches.
+The head is the most recent commit on a branch: ex. /origin/Had
+
+master is a local branch created for you by default when you clone the remote repository
+origin/master is a local copy (local copy in the remote) of the branch named "master" on the remote named "origin"
+
+Every commits is refered by an "object name" or "SHA-1 id", which is a 40-hexdigit id (refs).
+
+git store the refs of local branch commits in:
+
+.git/refs/heads/ 
+
+and the refs of remite branches in:
+
+.git/refs/remotes/origin/
+
+
+
+git branch           ->list 
+git branch <name>    ->create
+git branch -d <name> ->delete
+git checkout <name>  ->update the working directory with changes in the branch
+git checkout -b <new> <start-point>  ->create <new> branch referencing <start-point> 
+
+
+
+
+
+1)create a repository in your git account
+2)create working dir in your local computer
+3)in your working dir, "git init"
+4)establish connection from your working dir and the git repository 
+"git remote add origin git@github.com:SuipachaRep/probando.git"
+This is done under ssh protocole where SuipachaRep is your user name
+and probando.git is the git repository you had created in 1)
+5) for checking if you have estabished the connection, execute in your working dir:
+"git ls-remote"
+if everything is ok, you will get:
+"From git@github.com:SuipachaRep/probando.git"
+6) edit files, make add
+7) MAKE COMMIT "git commit". After making the commits, the default name of the branch is "master":
+
+[core]
+        repositoryformatversion = 0
+        filemode = true
+        bare = false
+        logallrefupdates = true
+[remote "origin"]
+        url = git@github.com:SuipachaRep/probando.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+        remote = origin
+        merge = refs/heads/master
+
+8) Execute "git push -u origin master". origin is the name of the remote repository, master is the default 
+name of the current branch.  
+
+-u means upstream. It is useful when you are working with multiples repositories.
+ 
